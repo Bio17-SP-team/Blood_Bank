@@ -5,6 +5,11 @@ using namespace std;
 
 User::User(){
 
+	int ID = 0;
+	string name, bloodType, mail, password = NULL;
+	int age = 0;
+	char gender = NULL;
+
 
 
 

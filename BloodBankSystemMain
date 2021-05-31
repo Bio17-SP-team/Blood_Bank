@@ -1,0 +1,127 @@
+#include <iostream>
+#include <string>
+#include "User.h" 
+#include "Donor.h"
+#include "Recipient.h"
+
+using namespace std;
+
+void mainMenu() {
+
+    int uChoice, mChoice;
+
+    cout << "Welcome to the Blood Bank" << endl;
+    cout << "Choose whether your are a donor or recipient:" << endl;
+    cout << "1- Donor " << endl << "2- Recipient " << endl;
+    cin >> uChoice;
+    if (uChoice != 1 || uChoice != 2) {
+        cout << "Invalid Input!" << endl;
+        cout << "Try Again" << endl;
+        cin >> uChoice;
+    }
+
+    if (uChoice == 1) {
+
+        cout << "1- Register " << endl << "2- Login " << endl;
+        cin >> mChoice;
+
+        if (mChoice == 1) {
+            
+            Donor d;
+            d.Register();
+
+        }
+
+        if (mChoice == 2) {
+
+            Donor d;
+            d.Login();
+
+        }
+
+
+    }
+    if (uChoice == 2) {
+
+        cout << "1- Register " << endl << "2- Login " << endl;
+        cin >> mChoice;
+
+        if (mChoice == 1) {
+
+            Recipient r;
+            r.Register();
+
+        }
+
+        if (mChoice == 2) {
+
+            Recipient r;
+            r.Login();
+
+        }
+
+
+    }
+
+
+
+}
+
+
+struct Date {
+    int days;
+    int months;
+    int years;
+};
+
+
+string displayDate() {
+
+    int day;
+    int month;
+    int year;
+
+    cout << "Day:   ";
+    cin >> day;
+    cout << endl;
+
+    cout << "Month:   ";
+    cin >> month;
+    cout << endl;
+
+    cout << "Year:   ";
+    cin >> year;
+    cout << endl;
+
+
+    if (day <= 0 || day > 30 || month <= 0 || month > 12 || year <= 1900 || year > 2021) {
+
+        cout << "Invalid Input" << endl << "Try Again" << endl;
+    
+    }
+
+
+    else {
+
+        Date d;
+        d.days = day;
+        d.months = month;
+        d.years = year;
+
+        string fullDate = to_string(d.days) + " / " + to_string(d.months) + " / " + to_string(d.years);
+
+        return fullDate;
+
+    }
+
+}
+
+    int main(){
+    
+    
+    
+    
+    
+    
+    }
+

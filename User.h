@@ -17,7 +17,6 @@ public:
 	void Update();
 	void Delete();
 	void homePage();
-	void mainMenu();
 	~User();
 	
 

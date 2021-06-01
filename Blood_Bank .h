@@ -1,9 +1,12 @@
 #pragma once
-#include<queue>
+#include<deque>
 #include"Blood.cpp"
+#include<string>
+using namespace std;
 class Blood_Bank
 {
-	queue<Blood> Aplus;
+public:
+	deque<Blood> Aplus;
 	queue<Blood> Aminus;
 	queue<Blood> Bplus;
 	queue<Blood> Bminus;
@@ -11,8 +14,12 @@ class Blood_Bank
 	queue<Blood> Ominus;
 	queue<Blood> ABplus;
 	queue<Blood> ABminus;
+	bool searchForAvalabilityOfBloodTypes(int, string);
+	void Request(bool);
+	void Waiting_list(bool);
 	Blood_Bank();
 	~Blood_Bank();
 
 
 };
+

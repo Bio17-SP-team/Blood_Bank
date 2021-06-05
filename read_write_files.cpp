@@ -29,13 +29,13 @@ void write_queue(queue<string>& a, string file) {
 }
 
 void read_donor(vector<Donor>& d, string file){
+    Donor donor;
     ifstream fs;
     string line;
     fs.open(file);
     int count = 0;
     while (getline(fs, line))
         {
-        Donor donor;
         if (count == 0) {
             donor.ID = std::stoi(line);
         }
@@ -100,4 +100,5 @@ void write_donor(vector<Donor>& d, string file){
 	}
     cf.close();
 }
+
 };

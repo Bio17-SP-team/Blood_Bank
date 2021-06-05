@@ -3,11 +3,36 @@
 
 using namespace std;
 
-User::User(){
+User::User(){}
 
-	int ID = 0;
-	string name,  mail, password = NULL;
-    int bloodType = 0;
+void User::Delete() {
+    cout << "deleted\n";
+}
+
+void User::homePage() {
+
+    int c;
+    cout << "1- Update your data" << endl << "2- Delete your data" << endl;
+    cin >> c;
+
+    while(c < 1 || c > 2)
+    {
+        cout << "Invalid Input!" << endl;
+        cout << "Try Again" << endl;
+        cin >> c;
+
+    }
+
+    if (c == 1) {
+
+       Update();
+
+    }
+
+    if (c == 2) {
+
+        Delete();
+    }
 
 }
 
@@ -30,10 +55,10 @@ void User::Register() {
    
     cout << "Choose your gender: " << endl;
     int gchoice;
-    cout << "1- Female" << endl;
-    cout << "2- Male"<<endl;
+    cout << "1- F" << endl;
+    cout << "2- M"<<endl;
     cin >> gchoice;
-    while (gchoice != 1 || gchoice != 2)
+    while (gchoice < 1 || gchoice > 2)
     {
         cout << "Invalid Input!" << endl;
         cout << "Try Again" << endl;
@@ -41,16 +66,36 @@ void User::Register() {
 
     }
 
+    if(gchoice == 1){
+        gender = 'F';
+    }
+    else if (gchoice == 2) {
+        gender = 'M';
+    }
+
     cout << "Choose your blood type:" << endl;
     cout << "1- A" << endl;
     cout << "2- B" << endl;
     cout << "3- AB" << endl;
     cout << "4- O" << endl;
-    cin >> bloodType;
-    while (bloodType != 1 || bloodType != 2 || bloodType!=3 || bloodType!=4) {
+    int btype;
+    cin >> btype;
+    while (btype < 1 || btype > 4) {
         cout << "Invalid Input!"<< endl;
         cout << "Try Again"<< endl;
-        cin >> bloodType;
+        cin >> btype;
+    }
+    if (btype == 1) {
+        bloodType = "A";
+    }
+    else if (btype == 2) {
+        bloodType = "B";
+    }
+    else if (btype == 3) {
+        bloodType = "AB";
+    }
+    else if (btype == 4) {
+        bloodType = "O";
     }
 
     cout << "Registration is done successfully"<< endl;
@@ -58,19 +103,19 @@ void User::Register() {
 }
 
 void User::Login() {
-    string username; //Read from the file
-    string spassword; //Read from the file
+    string username ; //Read from the file
+    string spassword ; //Read from the file
     cout << "Enter username: ";
-    cin >> name;
+    cin >> username;
     cout << "Enter password: ";
-    cin >> password;
-    if (name == username && password == spassword) {
+    cin >> spassword;
+    if (username == name && spassword == password) {
         homePage();
 
     }
     else {
         cout << "Invalid username or password!";
-        mainMenu();
+        //mainMenu();
        
     }
 
@@ -116,87 +161,57 @@ void User::Update() {
     if (newChoice == 4) {
         cout << "Enter your new mail:" << endl;
         cin >> nMail;
+        mail = nMail;
     }
 
     if (newChoice == 5) {
         cout << "Choose your gender: " << endl;
-        int gchoice;
-        cout << "1- Female" << endl;
-        cout << "2- Male" << endl;
+    int gchoice;
+    cout << "1- F" << endl;
+    cout << "2- M"<<endl;
+    cin >> gchoice;
+    while (gchoice < 1 || gchoice > 2)
+    {
+        cout << "Invalid Input!" << endl;
+        cout << "Try Again" << endl;
         cin >> gchoice;
-        while (gchoice != 1 || gchoice != 2)
-        {
-            cout << "Invalid Input!" << endl;
-            cout << "Try Again" << endl;
-            cin >> gchoice;
 
-        }
+    }
+
+    if(gchoice == 1){
+        gender = 'F';
+    }
+    else if (gchoice == 2) {
+        gender = 'M';
+    }
     }
 
     if (newChoice == 6) {
-        cout << "Choose your blood type:" << endl;
-        cout << "1- A" << endl;
-        cout << "2- B" << endl;
-        cout << "3- AB" << endl;
-        cout << "4- O" << endl;
-        cin >> bloodType;
-        while (bloodType != 1 || bloodType != 2 || bloodType != 3 || bloodType != 4) {
-            cout << "Invalid Input!" << endl;
-            cout << "Try Again" << endl;
-            cin >> bloodType;
-        }
+    cout << "Choose your blood type:" << endl;
+    cout << "1- A" << endl;
+    cout << "2- B" << endl;
+    cout << "3- AB" << endl;
+    cout << "4- O" << endl;
+    int btype;
+    cin >> btype;
+    while (btype < 1 || btype > 4) {
+        cout << "Invalid Input!"<< endl;
+        cout << "Try Again"<< endl;
+        cin >> btype;
+    }
+    if (btype == 1) {
+        bloodType = "A";
+    }
+    else if (btype == 2) {
+        bloodType = "B";
+    }
+    else if (btype == 3) {
+        bloodType = "AB";
+    }
+    else if (btype == 4) {
+        bloodType = "O";
+    }
     }
     cout << "Updates are done successfully" << endl;
     homePage();
 }
-
-  
-
-
-
-void User::Delete() {
-
-
-
-
-
-}
-void User::homePage() {
-
-    int c;
-    cout << "1- Update your data" << endl << "2- Delete your data" << endl;
-    cin >> c;
-
-    while(c != 1 || c != 2)
-    {
-        cout << "Invalid Input!" << endl;
-        cout << "Try Again" << endl;
-        cin >> c;
-
-    }
-
-        if (c == 1) {
-
-            Update();
-
-        }
-
-        if (c == 2) {
-
-            Delete();
-        }
-
-    
-   
-
-
-
-}
-
-
-
-User::~User() {
-
-
-}
-

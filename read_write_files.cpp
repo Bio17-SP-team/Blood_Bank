@@ -32,50 +32,51 @@ void read_donor(vector<Donor>& d, string file){
     ifstream fs;
     string line;
     fs.open(file);
-    int count = 0, array_count = 0;
+    int count = 0;
     while (getline(fs, line))
         {
-            if (count == 0) {
-            d[array_count].ID = std::stoi(line);
+        Donor donor;
+        if (count == 0) {
+            donor.ID = std::stoi(line);
         }
         else if (count == 1) {
 		    string g = line;
-            d[array_count].gender = line.at(0);
+            donor.gender = line.at(0);
         }
         else if (count == 2) {
-            d[array_count].name = line;
+            donor.name = line;
         }
         else if (count == 3) {
-            d[array_count].mail = line;
+            donor.mail = line;
         }
         else if (count == 4) {
-            d[array_count].password = line;
+            donor.password = line;
         }
         else if(count==5){
-            d[array_count].bloodType = line;
+            donor.bloodType = line;
         }
 		else if (count == 6) {
-            d[array_count].age = std::stoi(line);
+            donor.age = std::stoi(line);
         }
         else if (count==7) {
 		string flag = line;
 		    if (flag == "0"){	
-            d[array_count].illnesses = false;
+            donor.illnesses = false;
 			}
 			else {
-			d[array_count].illnesses = true;
+			donor.illnesses = true;
 			}
         }
         else if (count==8) {
-            d[array_count].others = line;
+            donor.others = line;
         }
 		else {
-		    d[array_count].date = line;
+		    donor.date = line;
         }
         count++;
         if (count > 9) {
+            d.push_back(donor);
             count = 0;
-            array_count++;
         }
     }
     fs.close();
@@ -99,5 +100,4 @@ void write_donor(vector<Donor>& d, string file){
 	}
     cf.close();
 }
-
 };

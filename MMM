@@ -36,7 +36,7 @@ bool Blood_Bank::searchForAvalabilityOfBloodTypes(int quantity, string blood_typ
     }
     }
     // badawar 3ala el b
-    if (blood_type == "B+" ){
+   else if (blood_type == "B+" ){
 
   if (blood_type == "B+" && Bplus.size() >= quantity - 1)
     {
@@ -45,7 +45,7 @@ bool Blood_Bank::searchForAvalabilityOfBloodTypes(int quantity, string blood_typ
       cout <<" B type is avalible ";
 
     }
-    else  if (blood_type == "o+"&& Oplus.size()>=quantity-1)
+    else  if (Oplus.size()>=quantity-1)
     {
          return true ;
       availabilityStatus();
@@ -60,7 +60,7 @@ bool Blood_Bank::searchForAvalabilityOfBloodTypes(int quantity, string blood_typ
 
 
 // o type
-  if (blood_type == "O+"){
+ else if (blood_type == "O+"){
    if (blood_type == "O+" && Oplus.size() >= quantity - 1)
     {
 
@@ -75,7 +75,7 @@ bool Blood_Bank::searchForAvalabilityOfBloodTypes(int quantity, string blood_typ
    }
  }
  
-   
+  else if (blood_type == "AB+"){
   if (blood_type == "AB+" && ABplus.size() >= quantity - 1)
       {
 
@@ -83,14 +83,14 @@ bool Blood_Bank::searchForAvalabilityOfBloodTypes(int quantity, string blood_typ
         availabilityStatus();
         cout <<" AB type is avalible ";
       }
-      else if (blood_type == "O+" && Oplus.size() >= quantity - 1)
+      else if ( Oplus.size() >= quantity - 1)
        {
 
          return true ;
       availabilityStatus();
       cout <<" O type is avalible ";
       }
-    else  if (blood_type == "A+"&& Aplus.size()>=quantity-1)
+    else  if ( Aplus.size()>=quantity-1)
       {
         return true ;
         availabilityStatus();
@@ -101,4 +101,4 @@ bool Blood_Bank::searchForAvalabilityOfBloodTypes(int quantity, string blood_typ
       cout << "Your request is not Available "
       cout<< " you are directed to the waiting list"
       return false;
-    }
+    }}

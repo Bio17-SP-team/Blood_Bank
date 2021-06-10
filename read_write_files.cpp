@@ -100,5 +100,66 @@ void write_donor(vector<Donor>& d, string file){
 	}
     cf.close();
 }
+	
+	void read_recipient(vector<Recipient>& r, string file){
+    Recipient recipient;
+    ifstream fs;
+    string line;
+    fs.open(file);
+    int count = 0;
+    while (getline(fs, line))
+        {
+        if (count == 0) {
+            recipient.ID = std::stoi(line);
+        }
+        else if (count == 1) {
+            recipient.gender = line.at(0);
+        }
+        else if (count == 2) {
+            recipient.name = line;
+        }
+        else if (count == 3) {
+            recipient.mail = line;
+        }
+        else if (count == 4) {
+            recipient.password = line;
+        }
+        else if(count==5){
+            recipient.bloodType = line;
+        }
+		else if (count == 6) {
+            recipient.age = std::stoi(line);
+        }
+        else if (count==7) {
+		    recipient.hospital = line;
+        }
+		else {
+		    recipient.case_doctor = line;
+        }
+        count++;
+        if (count > 8) {
+            r.push_back(recipient);
+            count = 0;
+        }
+    }
+    fs.close();
+}
+
+void write_recipient(vector<Recipient>& r, string file){
+    ofstream cf;
+    cf.open(file);
+    for(int i = 0; i < r.size(); i++){
+	    cf << r[i].ID << endl;
+        cf << r[i].gender << endl;
+        cf << r[i].name << endl;
+        cf << r[i].mail << endl;
+        cf << r[i].password << endl;
+        cf << r[i].bloodType << endl;
+		cf << r[i].age << endl;
+        cf << r[i].hospital << endl;
+        cf << r[i].case_doctor << endl;			
+	}
+    cf.close();
+}
 
 };

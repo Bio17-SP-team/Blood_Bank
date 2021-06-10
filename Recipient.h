@@ -1,30 +1,23 @@
-#ifndef RECIPIENT _H
-#define RECIPIENT _H
+#pragma once
+#include "blood_bank.h"
+#include <iostream>
+#include <string>
+#include "user.h"
 
-
-class Recipient
+using namespace std;
+class Recipient : public User
 {
-    public:
-        Recipient ();
-
-       // login();
-        //Register();
-       // update_data ();
-        // delte_account ();
-       //  home_page();
-
-
-
-
-
-         bool searchForAvalabilityOfBloodTypes(); //request  ( calling )
-         void DisaplayBloodTypes();// ele ana 25atooo // ask for functionality  /*alert */
-          void RequestABloodType();// blood type  , quantity ,( hospital ( from his data )
-
-
-        virtual ~Recipient ();
-    protected:
-    private:
+public:
+	int age;
+	string hospital;
+	string case_doctor;
+	Recipient();
+	void Register();
+	void Login();
+	void Update();
+	void Delete();
+	void HomePage();
+	bool searchForAvailabilityOfBloodTypes(int, Blood_Bank&);
+	void DisplayBloodTypes(Blood_Bank&);// ele ana 25atooo // ask for functionality  /*alert */
+	void RequestABloodType();// blood type  , quantity ,( hospital ( from his data )
 };
-
-#endif // RECIPIENT _H

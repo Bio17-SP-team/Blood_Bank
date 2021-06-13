@@ -91,38 +91,22 @@ void Donor::Register() {
 }
 
 
-void Donor::Login(/*string& username, string& tpassword, vector <Donor> donors*/) {
 
-   
-    read_write_files dw;
-    vector <Donor> donors;
-    dw.read_donor(donors, "donors.txt");
-    vector <Donor> ::iterator it;
-
-    cout << "Enter username: ";
-    cin >> username;
-    cout << "Enter password: ";
-    cin >> tpassword;
     
-   
+bool Donor::donationReq() {
 
-    for (it = donors.begin(); it != donors.end(); it++)
-    {
-        if (username == it->name && tpassword == it->password) {
-
-            cout << "You logged in successfully!";
-            //homePage();
-
-        }
-        else {
-            cout << "Invalid username or password!";
-            //mainMenu();
-
-        }
-
-        
-
+    if (sufferDisease == 1 || (lDonationMonth = 0 && lDonationMonth <= 3)) {
+        cout << "Your request is rejected" << endl;
+        return 0;
     }
+    
+    else {
+        cout << "Your request is accepted" << endl;
+        return 1;
+    }
+    homePage();
+    
+}
 
 
     

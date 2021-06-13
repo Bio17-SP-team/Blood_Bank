@@ -202,3 +202,16 @@ bool Recipient::searchForAvailabilityOfBloodTypes(int quantity, Blood_Bank& b)
 
 
     }
+void Blood_Bank::Request(bool check)
+{
+
+if (searchForAvailabilityOfBloodTypes()==true) {
+requestlist.push(ID);
+cout<<"your request has been submitted sucessfully"<<endl;
+}
+else 
+{
+waitinglist.push(ID); 
+cout<<"You are directed to the waiting list"<<endl;
+}
+}

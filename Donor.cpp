@@ -1,79 +1,72 @@
-#include "donor.h"
-#include "read_write_files.cpp"
-#include <fstream>
-#include <vector>
+#include "Donor.h"
 #include <iostream>
-
+#include <ctime>
 using namespace std;
+
+
 
 Donor::Donor() {
 }
 
-void Donor::Register() {
+void Donor::HomePage() {
+    cout << "test";
+}
+
+void Donor::Login(vector<Donor>& d) {
+    string username, userpass;
+    cout << "Enter your username: ";
+    cin >> username;
+    cout << "Enter your password: ";
+    cin >> userpass;
+
+    for (int i = 0; i < d.size(); i++) {
+        if (username == d[i].name && userpass == d[i].password) {
+            d[i].HomePage();
+        }
+    }
+}
+
+void Donor::Register(vector<Donor>& d) {
 
     User::Register();
 
     cout << "Enter your age: " << endl;
     cin >> age;
-    if (age < 17 || age > 60) {
-        cout << "Your age is not suitable to be a donor" << endl;
-        //mainMenu();
-    }
-
     cout << "Do you suffer from any disease from the following:" << endl << "Blood Pressure Disorders, Thyroid Disease, Diabetes, Cancer, Heart Disorders, Hepatitis)" << endl;
+    int dChoice;
     cout << "1- Yes" << endl << "2- No " << endl;
-    cin >> choice;
-    while (choice != 1 || choice != 2)
+    cin >> dChoice;
+    while (dChoice < 1 || dChoice > 2)
     {
         cout << "Invalid Input!" << endl;
         cout << "Try Again" << endl;
-        cin >> choice;
-
-    }
-    if (choice == 1) {
-        sufferDisease = 1;
-    }
-    else {
-        sufferDisease = 0;
+        cin >> dChoice;
     }
 
+    if (dChoice == 1) {
+        illnesses = true;
+    }
 
-    cout << "Do you suffer from any other disease or take any kind of medications?" << endl;
-    cout << "1- Yes" << endl << "2- No " << endl;
-    cin >> choice;
-    while (choice != 1 || choice != 2)
-    {
-        cout << "Invalid Input!" << endl;
-        cout << "Try Again" << endl;
-        cin >> choice;
+    else if (dChoice == 2) {
+        illnesses = false;
+    }
 
-    }
-    if (choice == 1) {
-        sufferDisease = 1;
-    }
-    else {
-        sufferDisease = 0;
-    }
-   
-    if (sufferDisease == 1) {
-        cout << "Enter the disease" << endl;
-        cin >> dAnswer;
-        cout << "Enter the medication" << endl;
-        cin >> mAnswer;
-    }
+    cout << "Do you suffer from any other disease or Do you take any kind of medications?" << endl;
+    cin >> others;
 
     cout << "Do you have any past donations? " << endl;
-    cout << "You have a past donation. Press Y" << endl;
-    cout << "You do not have a past donation. Press N " << endl;
+    cout << "1- You have a past donation. Press Y" << endl;
+    cout << "2- You do not have a past donation. Press N " << endl;
+    bool donationStatus;
+    char c;
     cin >> c;
     if (c == 'y' || c == 'Y') {
-        cout << "How many months since you had your latest donation if any exists" << endl;
-        cin >> lDonationMonth;
-        if (lDonationMonth < 0) {
-            cout << "Invalid Entry" << endl;
-            cin >> lDonationMonth;
-        }
+
+        cout << "Enter the date of your latest donation if any exists" << endl;
+
+        cin >> date;
         donationStatus = true;
+
     }
     else if (c == 'n' || c == 'N') {
 
@@ -86,32 +79,6 @@ void Donor::Register() {
 
     }
 
+
     cout << "Registration is done successfully" << endl;
-    //homePage();
 }
-
-
-
-    
-bool Donor::donationReq() {
-
-    if (sufferDisease == 1 || (lDonationMonth = 0 && lDonationMonth <= 3)) {
-        cout << "Your request is rejected" << endl;
-        return 0;
-    }
-    
-    else {
-        cout << "Your request is accepted" << endl;
-        return 1;
-    }
-    homePage();
-    
-}
-
-
-    
-
-    
-}
-
-

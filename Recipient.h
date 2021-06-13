@@ -1,8 +1,10 @@
 #pragma once
-#include "blood_bank.h"
+#include "Blood_Bank.h"
 #include <iostream>
+#include <queue>
+#include <vector>
 #include <string>
-#include "user.h"
+#include "User.h"
 
 using namespace std;
 class Recipient : public User
@@ -12,12 +14,12 @@ public:
 	string hospital;
 	string case_doctor;
 	Recipient();
-	void Register();
-	void Login();
+	void Register(vector<Recipient>&, Blood_Bank&);
+	static void Login(vector<Recipient>&, Blood_Bank&);
 	void Update();
 	void Delete();
-	void HomePage();
-	bool searchForAvailabilityOfBloodTypes(int, Blood_Bank&);
+	void HomePage(Blood_Bank&);
+	bool searchForAvailabilityOfBloodTypes(Blood_Bank&);
 	void DisplayBloodTypes(Blood_Bank&);// ele ana 25atooo // ask for functionality  /*alert */
-	void RequestABloodType();// blood type  , quantity ,( hospital ( from his data )
+	void RequestABloodType(Blood_Bank&);// blood type  , quantity ,( hospital ( from his data )
 };

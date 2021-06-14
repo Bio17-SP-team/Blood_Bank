@@ -372,12 +372,7 @@ void Donor::Delete(vector<Donor>& d) {
         }
     }
 
-    if (d.empty())
-        cout << "Yes";
-    else
-        cout << "No";
-
-
+    
 
 }
 

@@ -3,6 +3,7 @@
 #include <fstream>
 #include <vector>
 #include <iostream>
+#include "bloodBank_System.cpp"
 
 using namespace std;
 
@@ -46,7 +47,10 @@ void Donor::Register() {
     cin >> age;
     if (age < 17 || age > 60) {
         cout << "Your age is not suitable to be a donor" << endl;
-        //mainMenu();
+        ageVer = 0;
+    }
+    else {
+        ageVer = 1;
     }
 
     cout << "Do you suffer from any disease from the following:" << endl << "Blood Pressure Disorders, Thyroid Disease, Diabetes, Cancer, Heart Disorders, Hepatitis)" << endl;
@@ -116,7 +120,7 @@ void Donor::Register() {
     }
 
     cout << "Registration is done successfully" << endl;
-    //homePage();
+    homePage();
 }
 
 void Donor::Login(vector<Donor>& d) {
@@ -132,7 +136,7 @@ void Donor::Login(vector<Donor>& d) {
 
     for (int i = 0; i < d.size(); i++) {
         if (username == d[i].name && takenPassword == d[i].password) {
-            d[i].HomePage();
+            d[i].homePage();
         }
     }
 
@@ -146,8 +150,8 @@ void Donor::Update() {
     cout << "2- Update your name" << endl;
     cout << "3- Update your password" << endl;
     cout << "4- Update your mail" << endl;
-    cout << "5- Update your age" << endl;
-    cout << "6- Update your gender" << endl;
+    cout << "5- Update your gender" << endl;
+    cout << "6- Update your age" << endl;
     cout << "7- Update your blood type" << endl;
     cout << "8- Update your disease infection" << endl;
     cout << "9- Update your other disease and medications" << endl;
@@ -221,6 +225,10 @@ void Donor::Update() {
         cin >> age;
         if (age < 17 || age > 60) {
             cout << "Your age is not suitable to be a donor" << endl;
+            ageVer = 0;
+        }
+        else {
+            ageVer = 1;
         }
 
     }
@@ -342,7 +350,7 @@ void Donor::Update() {
     }
 
     cout << "Updates are done successfully" << endl;
-    //homePage();
+    homePage();
 
 
 }
@@ -372,24 +380,15 @@ void Donor::Delete(vector<Donor>& d) {
         }
     }
 
-    
+   
+
+
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
 bool Donor::donationReq() {
 
-    if (sufferDisease == 1 || (lDonationMonth = 0 && lDonationMonth <= 3)) {
+    if (sufferDisease == 1 || ageVer == 0 || (lDonationMonth = 0 && lDonationMonth <= 3) ) {
         cout << "Your request is rejected" << endl;
         return 0;
     }
@@ -399,7 +398,7 @@ bool Donor::donationReq() {
         return 1;
     }
 
-    //homePage();
+    homePage();
 
 }
 

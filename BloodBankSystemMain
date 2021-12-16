@@ -1,128 +1,98 @@
 #include <iostream>
 #include <string>
-#include "User.h" 
+#include <stdio.h>
+#include <queue>
+#include <vector>
+#include "Blood_Bank.h"
 #include "Donor.h"
+#include "read_write_files.cpp"
 #include "Recipient.h"
+using namespace	std;
 
-using namespace std;
+void mainmenu(vector<Donor>& d, vector<Recipient>& r, Blood_Bank& b) {
+	while (true) {
+		cout << "\t\t\tWelcome to Blood Bank System\n";
+		cout << "To enter as a donor, press 1\nTo enter as a recipient press 2\nIf you want to exit, press any other key: ";
+		int mainchoice, subchoice;
+		cin >> mainchoice;
+		if (mainchoice == 1) {
+			cout << "To register, press 1\nTo login, press 2\nTo delete your account, press 3 : ";
+			cin >> subchoice;
+			while (subchoice < 1 || subchoice > 3)
+			{
+				cout << "Invalid Input!" << endl;
+				cout << "Try Again" << endl;
+				cin >> subchoice;
+			}
 
-void mainMenu() {
+			if (subchoice == 1) {
+				Donor donor;
+				donor.Register();
+				d.push_back(donor);
+				Donor::Login(d, b);
+			}
+			else if (subchoice == 2) {
+				Donor::Login(d, b);
+			}
+			else if (subchoice == 3) {
+				Donor::Delete(d);
+			}
 
-    int uChoice, mChoice;
+		}
+		else if (mainchoice == 2) {
+			cout << "To register, press 1\nTo login, press 2\nTo delete your account, press 3: ";
+			cin >> subchoice;
+			while (subchoice < 1 || subchoice > 3)
+			{
+				cout << "Invalid Input!" << endl;
+				cout << "Try Again" << endl;
+				cin >> subchoice;
+			}
 
-    cout << "Welcome to the Blood Bank" << endl;
-    cout << "Choose whether your are a donor or recipient:" << endl;
-    cout << "1- Donor " << endl << "2- Recipient " << endl;
-    cin >> uChoice;
-    if (uChoice != 1 || uChoice != 2) {
-        cout << "Invalid Input!" << endl;
-        cout << "Try Again" << endl;
-        cin >> uChoice;
-    }
-
-    if (uChoice == 1) {
-
-        cout << "1- Register " << endl << "2- Login " << endl;
-        cin >> mChoice;
-
-        if (mChoice == 1) {
-            
-            Donor d;
-            d.Register();
-
-        }
-
-        if (mChoice == 2) {
-
-            Donor d;
-            d.Login();
-
-        }
-
-
-    }
-    if (uChoice == 2) {
-
-        cout << "1- Register " << endl << "2- Login " << endl;
-        cin >> mChoice;
-
-        if (mChoice == 1) {
-
-            Recipient r;
-            r.Register();
-
-        }
-
-        if (mChoice == 2) {
-
-            Recipient r;
-            r.Login();
-
-        }
-
-
-    }
-
-
-
+			if (subchoice == 1) {
+				Recipient recipient;
+				recipient.Register();
+				r.push_back(recipient);
+				Recipient::Login(r, b);
+			}
+			else if (subchoice == 2) {
+				Recipient::Login(r, b);
+			}
+			else if (subchoice == 3) {
+				Recipient::Delete(r);
+			}
+		}
+		else {
+			break;
+		}
+	}
 }
 
-
-struct Date {
-    int days;
-    int months;
-    int years;
-};
-
-
-string displayDate() {
-
-    int day;
-    int month;
-    int year;
-
-    cout << "Day:   ";
-    cin >> day;
-    cout << endl;
-
-    cout << "Month:   ";
-    cin >> month;
-    cout << endl;
-
-    cout << "Year:   ";
-    cin >> year;
-    cout << endl;
-
-
-    if (day <= 0 || day > 30 || month <= 0 || month > 12 || year <= 1900 || year > 2021) {
-
-        cout << "Invalid Input" << endl << "Try Again" << endl;
-    
-    }
-
-
-    else {
-
-        Date d;
-        d.days = day;
-        d.months = month;
-        d.years = year;
-
-        string fullDate = to_string(d.days) + " / " + to_string(d.months) + " / " + to_string(d.years);
-
-        return fullDate;
-
-    }
+int	main()
+{
+	read_write_files rw;
+	vector<Donor> donors;
+	vector<Recipient> recipients;
+	Blood_Bank bloodbank;
+	rw.read_donor(donors, "donors.txt");
+	rw.read_recipient(recipients, "recipients.txt");
+	rw.read_intqueue(bloodbank.donationlist, "donationlist.txt");
+	rw.read_intqueue(bloodbank.requestlist, "requestlist.txt");
+	rw.read_intqueue(bloodbank.waitinglist, "waitinglist.txt");
+	rw.read_datequeue(bloodbank.A, "A.txt");
+	rw.read_datequeue(bloodbank.B, "B.txt");
+	rw.read_datequeue(bloodbank.AB, "AB.txt");
+	rw.read_datequeue(bloodbank.O, "O.txt");
+	mainmenu(donors, recipients, bloodbank);
+	rw.write_datequeue(bloodbank.A, "A.txt");
+	rw.write_datequeue(bloodbank.B, "B.txt");
+	rw.write_datequeue(bloodbank.AB, "AB.txt");
+	rw.write_datequeue(bloodbank.O, "O.txt");
+	rw.write_intqueue(bloodbank.donationlist, "donationlist.txt");
+	rw.write_intqueue(bloodbank.requestlist, "requestlist.txt");
+	rw.write_intqueue(bloodbank.waitinglist, "waitinglist.txt");
+	rw.write_donor(donors, "donors.txt");
+	rw.write_recipient(recipients, "recipients.txt");
+	cout << "\t\tThank you!";
 
 }
-
-    int main(){
-    
-    
-    
-    
-    
-    
-    
-    }
-

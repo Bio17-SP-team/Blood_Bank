@@ -5,25 +5,22 @@
 using namespace std;
 class User
 {
-private:
-	int ID;
-	string name,  mail, password;
-	int bloodType;
-	
 public:
+	int ID, age;
+	char gender;
+	string name, mail, password;
+	string bloodType;
+
 	User();
 	void Register();
-	void Login();
 	void Update();
-	void Delete();
-	void homePage();
-	~User();
-	
-
-
-
-
-
+	void Logout();
+	void setGender();
+	void setBloodtype();
+	void setId();
+	void setName();
+	void setPass();
+	void setMail();
+	void setAge();
 
 };
-

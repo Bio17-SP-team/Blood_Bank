@@ -1,366 +1,184 @@
-#include "donor.h"
-#include "read_write_files.cpp"
-#include <fstream>
-#include <vector>
+#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
-#include "bloodBank_System.cpp"
-
+#include <ctime>
+#include "Donor.h"
 using namespace std;
 
 Donor::Donor() {
+    date.day = 1;
+    date.month = 1;
+    date.year = 2021;
+    others = "not found";
 }
 
-void Donor::homePage() {
-
+void Donor::HomePage(Blood_Bank& b) {
     int c;
-    cout << "1- Update your data" << endl << "2- Donation Request" << endl;
+    cout << "1- Update your data" << endl << "2- Donation Request" << endl << "3- Log out" << endl;
     cin >> c;
 
-    while (c < 1 || c > 2)
+    while (c < 1 || c > 3)
     {
         cout << "Invalid Input!" << endl;
         cout << "Try Again" << endl;
         cin >> c;
-
     }
 
     if (c == 1) {
-
-        Donor::Update();
-
+        Update(b);
     }
 
     else if (c == 2) {
-
-        donationReq();
+        DonationReq(b);
     }
 
-   
+    else if (c == 3) {
+        Logout();
+    }
+}
 
+void Donor::Login(vector<Donor>& d, Blood_Bank& b) {
+    string username, userpass;
+    cout << "Enter your username: ";
+    cin >> username;
+    cout << "Enter your password: ";
+    cin >> userpass;
+    bool flag = 0;
+
+    for (int i = 0; i < d.size(); i++) {
+        if (username == d[i].name && userpass == d[i].password) {
+            flag = 1;
+            d[i].HomePage(b);
+
+        }
+    }
+    if (flag == 0) {
+        cout << "Invalid username or password! " << endl;
+        Login(d, b);
+    }
 }
 
 void Donor::Register() {
 
     User::Register();
+    setIllness();
+    setOthers();
+    setDonationdate();
+    cout << "Registration is done successfully" << endl;
+}
 
-    cout << "Enter your age: " << endl;
-    cin >> age;
+
+void Donor::DonationReq(Blood_Bank& b) {
+    cout << "Enter how many months have passed since your last donation: ";
+    int lDonationMonth;
+    cin >> lDonationMonth;
+
+    while (lDonationMonth < 0) {
+        cout << "Invalid Input!" << endl;
+        cout << "Try Again" << endl;
+        cin >> lDonationMonth;
+    }
+
     if (age < 17 || age > 60) {
         cout << "Your age is not suitable to be a donor" << endl;
-        ageVer = 0;
+        cout << "Your request is rejected" << endl;
+
     }
     else {
-        ageVer = 1;
-    }
-
-    cout << "Do you suffer from any disease from the following:" << endl << "Blood Pressure Disorders, Thyroid Disease, Diabetes, Cancer, Heart Disorders, Hepatitis)" << endl;
-    cout << "1- Yes" << endl << "2- No " << endl;
-    cin >> choice;
-    while (choice != 1 || choice != 2)
-    {
-        cout << "Invalid Input!" << endl;
-        cout << "Try Again" << endl;
-        cin >> choice;
-
-    }
-    if (choice == 1) {
-        sufferDisease = 1;
-    }
-    else {
-        sufferDisease = 0;
-    }
-
-
-    cout << "Do you suffer from any other disease or take any kind of medications?" << endl;
-    cout << "1- Yes" << endl << "2- No " << endl;
-    cin >> choice;
-    while (choice != 1 || choice != 2)
-    {
-        cout << "Invalid Input!" << endl;
-        cout << "Try Again" << endl;
-        cin >> choice;
-
-    }
-    if (choice == 1) {
-        sufferDisease = 1;
-    }
-    else {
-        sufferDisease = 0;
-    }
-   
-    if (sufferDisease == 1) {
-        cout << "Enter the disease" << endl;
-        cin >> dAnswer;
-        cout << "Enter the medication" << endl;
-        cin >> mAnswer;
-    }
-
-    cout << "Do you have any past donations? " << endl;
-    cout << "You have a past donation. Press Y" << endl;
-    cout << "You do not have a past donation. Press N " << endl;
-    cin >> c;
-    if (c == 'y' || c == 'Y') {
-        cout << "How many months since you had your latest donation if any exists" << endl;
-        cin >> lDonationMonth;
-        if (lDonationMonth < 0) {
-            cout << "Invalid Entry" << endl;
-            cin >> lDonationMonth;
+        if (illnesses == 1 || lDonationMonth <= 3) {
+            cout << "Your request is rejected" << endl;
         }
-        donationStatus = true;
-    }
-    else if (c == 'n' || c == 'N') {
 
-        donationStatus = false;
+        else {
+            cout << "Your request is accepted" << endl;
 
-    }
-    else {
-
-        cout << "Invalid Input";
-
-    }
-
-    cout << "Registration is done successfully" << endl;
-    homePage();
-}
-
-void Donor::Login(vector<Donor>& d) {
-
-
-    string username;
-    string takenPassword;
-   
-    cout << "Enter your username: ";
-    cin >> username;
-    cout << "Enter your password: ";
-    cin >> takenPassword;
-
-    for (int i = 0; i < d.size(); i++) {
-        if (username == d[i].name && takenPassword == d[i].password) {
-            d[i].homePage();
+            time_t now = time(0);
+            tm* ltm = localtime(&now);
+            date.year = 1900 + ltm->tm_year;
+            date.month = 1 + ltm->tm_mon;
+            date.day = ltm->tm_mday;
+            b.donationlist.push(ID);
         }
     }
+    HomePage(b);
 
 }
 
 
-void Donor::Update() {
+void Donor::Update(Blood_Bank& b) {
 
     cout << "Choose the attribute you want to update" << endl;
     cout << "1- Update your ID" << endl;
     cout << "2- Update your name" << endl;
     cout << "3- Update your password" << endl;
     cout << "4- Update your mail" << endl;
-    cout << "5- Update your gender" << endl;
-    cout << "6- Update your age" << endl;
+    cout << "5- Update your age" << endl;
+    cout << "6- Update your gender" << endl;
     cout << "7- Update your blood type" << endl;
     cout << "8- Update your disease infection" << endl;
     cout << "9- Update your other disease and medications" << endl;
     cout << "10- Update the latest donation' date" << endl;
 
 
-
+    int updateChoice;
+    cin >> updateChoice;
 
     if (updateChoice == 1) {
-
-        cout << "Enter your birth ID: " << endl;
-        cin >> ID;
-
+        setId();
     }
 
     else if (updateChoice == 2) {
-
-        cout << "Enter your new name: " << endl;
-        cin >> name;
-
+        setName();
     }
 
     else if (updateChoice == 3) {
-
-        cout << "Enter a new password (At least 8 characters):" << endl;
-        cin >> password;
-        while (password.length() < 8) {
-            cout << "Invalid!" << endl;
-            cout << "Try Again" << endl;
-            cin >> password;
-        }
-
-
+        setPass();
     }
 
     else if (updateChoice == 4) {
-
-        cout << "Enter your mail:" << endl;
-        cin >> mail;
-
+        setMail();
     }
 
-
     else if (updateChoice == 5) {
-
-        cout << "Choose your gender: " << endl;
-        cout << "1- F" << endl;
-        cout << "2- M" << endl;
-        cin >> gchoice;
-        while (gchoice < 1 || gchoice > 2)
-        {
-            cout << "Invalid Input!" << endl;
-            cout << "Try Again" << endl;
-            cin >> gchoice;
-
+        setAge();
+        if (age < 17 || age > 60) {
+            cout << "Your age is not suitable to be a donor" << endl;
         }
-
-        if (gchoice == 1) {
-            gender = 'F';
-        }
-        else if (gchoice == 2) {
-            gender = 'M';
-        }
-
 
     }
 
     else if (updateChoice == 6) {
-
-        cout << "Enter your new age: " << endl;
-        cin >> age;
-        if (age < 17 || age > 60) {
-            cout << "Your age is not suitable to be a donor" << endl;
-            ageVer = 0;
-        }
-        else {
-            ageVer = 1;
-        }
+        setGender();
 
     }
 
-
     else if (updateChoice == 7) {
-
-        cout << "Choose your blood type:" << endl;
-        cout << "1- A" << endl;
-        cout << "2- B" << endl;
-        cout << "3- AB" << endl;
-        cout << "4- O" << endl;
-
-        cin >> btype;
-        while (btype < 1 || btype > 4) {
-            cout << "Invalid Input!" << endl;
-            cout << "Try Again" << endl;
-            cin >> btype;
-        }
-        if (btype == 1) {
-            bloodType = "A";
-        }
-        else if (btype == 2) {
-            bloodType = "B";
-        }
-        else if (btype == 3) {
-            bloodType = "AB";
-        }
-        else if (btype == 4) {
-            bloodType = "O";
-        }
-
+        setBloodtype();
     }
 
     else if (updateChoice == 8) {
-
-
-        cout << "Do you suffer from any disease from the following:" << endl << "Blood Pressure Disorders, Thyroid Disease, Diabetes, Cancer, Heart Disorders, Hepatitis)" << endl;
-        cout << "1- Yes" << endl << "2- No " << endl;
-        cin >> choice;
-        while (choice != 1 || choice != 2)
-        {
-            cout << "Invalid Input!" << endl;
-            cout << "Try Again" << endl;
-            cin >> choice;
-
-        }
-        if (choice == 1) {
-            sufferDisease = 1;
-        }
-        else {
-            sufferDisease = 0;
-        }
-
-
-
+        setIllness();
     }
 
     else if (updateChoice == 9) {
-
-
-        cout << "Do you suffer from any other disease or take any kind of medications?" << endl;
-        cout << "1- Yes" << endl << "2- No " << endl;
-        cin >> choice;
-        while (choice != 1 || choice != 2)
-        {
-            cout << "Invalid Input!" << endl;
-            cout << "Try Again" << endl;
-            cin >> choice;
-
-        }
-        if (choice == 1) {
-            sufferDisease = 1;
-        }
-        else {
-            sufferDisease = 0;
-        }
-
-        if (sufferDisease == 1) {
-            cout << "Enter the disease" << endl;
-            cin >> dAnswer;
-            cout << "Enter the medication" << endl;
-            cin >> mAnswer;
-        }
-
+        setOthers();
     }
 
 
     else if (updateChoice == 10) {
-
-
-        cout << "Do you have any past donations? " << endl;
-        cout << "You have a past donation. Press Y" << endl;
-        cout << "You do not have a past donation. Press N " << endl;
-        cin >> c;
-        if (c == 'y' || c == 'Y') {
-            cout << "How many months since you had your latest donation if any exists" << endl;
-            cin >> lDonationMonth;
-            if (lDonationMonth < 0) {
-                cout << "Invalid Entry" << endl;
-                cin >> lDonationMonth;
-            }
-            donationStatus = true;
-        }
-        else if (c == 'n' || c == 'N') {
-
-            donationStatus = false;
-
-        }
-        else {
-
-            cout << "Invalid Input";
-
-        }
-
-
-
-
+        setDonationdate();
     }
-
     cout << "Updates are done successfully" << endl;
-    homePage();
-
-
+    cout << "Do you want to update anything else? If yes press y and if not press any other key: ";
+    string cont;
+    cin >> cont;
+    if (cont == "y" || cont == "y") {
+        Update(b);
+    }
+    HomePage(b);
 }
 
 
-
-
-
 void Donor::Delete(vector<Donor>& d) {
-
 
     int takenID;
 
@@ -369,50 +187,74 @@ void Donor::Delete(vector<Donor>& d) {
 
     vector <Donor> ::iterator it;
 
-
     for (it = d.begin(); it != d.end(); it++)
     {
         if (takenID == it->ID) {
 
             d.erase(it);
+            cout << "Account deleted successfully\n" << endl;
             break;
 
         }
     }
-
-   
-
-
-
 }
 
-bool Donor::donationReq() {
 
-    if (sufferDisease == 1 || ageVer == 0 || (lDonationMonth = 0 && lDonationMonth <= 3) ) {
-        cout << "Your request is rejected" << endl;
-        return 0;
+void Donor::setIllness() {
+    cout << "Do you suffer from any disease from the following:" << endl << "Blood Pressure Disorders, Thyroid Disease, Diabetes, Cancer, Heart Disorders, Hepatitis)" << endl;
+    int dChoice;
+    cout << "1- Yes" << endl << "2- No " << endl;
+    cin >> dChoice;
+    while (dChoice < 1 || dChoice > 2) {
+        cout << "Invalid Input!" << endl;
+        cout << "Try Again" << endl;
+        cin >> dChoice;
     }
+    if (dChoice == 1) {
+        illnesses = true;
+    }
+    else if (dChoice == 2) {
+        illnesses = false;
+    }
+}
 
+void Donor::setOthers() {
+    int choice;
+    cout << "Do you suffer from any other disease or take any kind of medications?" << endl;
+    cout << "1- Yes" << endl << "2- No " << endl;
+    cin >> choice;
+    while (choice < 1 || choice > 2) {
+        cout << "Invalid Input!" << endl;
+        cout << "Try Again" << endl;
+        cin >> choice;
+    }
+    if (choice == 1) {
+        cout << "Enter the disease/ medicine: " << endl;
+        cin >> others;
+    }
+}
+
+void Donor::setDonationdate()
+{
+    cout << "Do you have any past donations? " << endl;
+    cout << "1- You have a past donation. Press Y" << endl;
+    cout << "2- You do not have a past donation. Press N " << endl;
+    string c;
+    cin >> c;
+    if (c == "y" || c == "Y") {
+        cout << "Enter the date of your latest donation if any exists" << endl;
+        cout << "Day: " << endl;
+        cin >> date.day;
+        cout << "Month: " << endl;
+        cin >> date.month;
+        cout << "Year: " << endl;
+        cin >> date.year;
+    }
+    else if (c == "n" || c == "N") {
+    }
     else {
-        cout << "Your request is accepted" << endl;
-        return 1;
+        cout << "Invalid Input" << endl;
+        setDonationdate();
     }
-
-    homePage();
-
 }
-
-    
-
-    
-
-
-
-
-
-
-
-
-
-
 

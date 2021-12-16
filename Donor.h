@@ -2,26 +2,28 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include "Blood_Bank.h"
 #include "User.h"
-
+#include "date.h"
 using namespace std;
-
-struct date {
-	int day, month, year = 0;
-};
 
 class Donor : public User
 {
 public:
-	int age;
 	bool illnesses;
 	string others;
-	int date;
+	date date;
+
+
+
 	Donor();
-	void Register(vector<Donor>&);
-	static void Login(vector<Donor>&);
-	void Update();
-	void Delete();
-	void HomePage();
-	bool DonationReq();
+	void Register();
+	static void Login(vector<Donor>&, Blood_Bank&);
+	void Update(Blood_Bank& b);
+	static void Delete(vector<Donor>& d);
+	void HomePage(Blood_Bank&);
+	void DonationReq(Blood_Bank&);
+	void setIllness();
+	void setOthers();
+	void setDonationdate();
 };

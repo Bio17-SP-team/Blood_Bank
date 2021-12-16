@@ -2,31 +2,73 @@
 #include <fstream>
 #include <vector>
 #include <queue>
-#include "donor.h"
-#include "recipient.h"
+#include "Donor.h"
+#include "Recipient.h"
+#include "Blood_Bank.h"
+#include "date.h"
 using namespace std;
 
 class read_write_files {
 public:
-
-    void read_queue(queue<string>& a, string file) {
+    void read_intqueue(queue<int>& a, string file) {
         ifstream fs;
         string line;
         fs.open(file);
         while (getline(fs, line))
         {
-            a.push(line);
+            int i = std::stoi(line);
+            a.push(i);
         }
         fs.close();
 
     }
 
-    void write_queue(queue<string>& a, string file) {
+    void write_intqueue(queue<int>& a, string file) {
         ofstream cf;
         cf.open(file);
         while (!a.empty())
         {
             cf << a.front() << endl;
+            a.pop();
+        }
+        cf.close();
+    }
+
+    void read_datequeue(queue<date>& a, string file) {
+        ifstream fs;
+        string line;
+        int count = 0;
+        date date;
+        fs.open(file);
+        while (getline(fs, line))
+        {
+            if (count == 0) {
+                date.day = std::stoi(line);
+            }
+            else if (count == 1) {
+                date.month = std::stoi(line);
+            }
+            else {
+                date.year = std::stoi(line);
+            }
+            count++;
+            if (count > 2) {
+                a.push(date);
+                count = 0;
+            }
+        }
+        fs.close();
+
+    }
+
+    void write_datequeue(queue<date>& a, string file) {
+        ofstream cf;
+        cf.open(file);
+        while (!a.empty())
+        {
+            cf << a.front().day << endl;
+            cf << a.front().month << endl;
+            cf << a.front().year << endl;
             a.pop();
         }
         cf.close();
@@ -74,11 +116,17 @@ public:
             else if (count == 8) {
                 donor.others = line;
             }
+            else if (count == 9) {
+                donor.date.day = std::stoi(line);
+            }
+            else if (count == 10) {
+                donor.date.month = std::stoi(line);
+            }
             else {
-                donor.date = std::stoi(line);
+                donor.date.year = std::stoi(line);
             }
             count++;
-            if (count > 9) {
+            if (count > 11) {
                 d.push_back(donor);
                 count = 0;
             }
@@ -99,7 +147,10 @@ public:
             cf << d[i].age << endl;
             cf << d[i].illnesses << endl;
             cf << d[i].others << endl;
-            cf << d[i].date << endl;
+            cf << d[i].date.day << endl;
+            cf << d[i].date.month << endl;
+            cf << d[i].date.year << endl;
+            
 
         }
         cf.close();
@@ -162,6 +213,8 @@ public:
             cf << r[i].age << endl;
             cf << r[i].hospital << endl;
             cf << r[i].case_doctor << endl;
+            
+
         }
         cf.close();
     }
